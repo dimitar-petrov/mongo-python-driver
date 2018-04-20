@@ -279,8 +279,8 @@ class _Bulk(object):
                 check_keys = run.op_type == _INSERT
                 ops = islice(run.ops, run.idx_offset, None)
                 # Run as many ops as possible.
-                request_id, msg, to_send = _do_bulk_write_command(
-                    self.namespace, run.op_type, cmd, ops, check_keys,
+                request_id, msg, to_send = _do_batched_write_command(
+                    self.namespace, run.op_type, cmd, ops, check_keys=False,
                     self.collection.codec_options, bwc)
                 if not to_send:
                     raise InvalidOperation("cannot do an empty bulk write")
