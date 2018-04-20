@@ -276,11 +276,14 @@ class _Bulk(object):
                 if session:
                     session._apply_to(cmd, retryable, ReadPreference.PRIMARY)
                 sock_info.send_cluster_time(cmd, session, client)
-                check_keys = run.op_type == _INSERT
+                # check_keys = run.op_type == _INSERT
+                # TODO: Temporary hardcode to be
+                # able to insert . containing keys
+                check_keys = False
                 ops = islice(run.ops, run.idx_offset, None)
                 # Run as many ops as possible.
                 request_id, msg, to_send = _do_batched_write_command(
-                    self.namespace, run.op_type, cmd, ops, check_keys=False,
+                    self.namespace, run.op_type, cmd, ops, check_keys,
                     self.collection.codec_options, bwc)
                 if not to_send:
                     raise InvalidOperation("cannot do an empty bulk write")
