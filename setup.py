@@ -34,7 +34,11 @@ except ImportError:
     except ImportError:
         _HAVE_SPHINX = False
 
+<<<<<<< HEAD
 version = "3.7.0b1.dev0"
+=======
+version = "3.7.0"
+>>>>>>> Update version number
 
 f = open("README.rst")
 try:
